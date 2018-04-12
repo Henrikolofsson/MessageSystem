@@ -20,6 +20,7 @@ import Server.UserList;
 
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 
 /**
  * This class is the panel that will be placed in the window when connected.
@@ -30,33 +31,44 @@ import javax.swing.JButton;
 public class ConnectedUI extends JPanel {
 	private JTextField textField;
 	private UserList userList;
-
+	private JMenuBar menuBar;
+	private JMenu mnUsers;
+	private JMenuItem mntmOnlineUsers;
+	private JMenuItem mntmContacts;
+	private JLabel lblYouAreSigned;
+	private JScrollPane scrollPane;
+	private JScrollPane scrollPane2;
+	private JLabel lblYouAreChatting;
+	private JScrollBar scrollBar;
+	private JScrollBar scrollBar2;
+	private JButton btnSend;
+	
 	public ConnectedUI() {
 		setBackground(SystemColor.textHighlight);
 		setLayout(null);
 		
 		
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 800, 26);
 		add(menuBar);
 		
-		JMenu mnUsers = new JMenu("Users");
+		mnUsers = new JMenu("Users");
 		menuBar.add(mnUsers);
 		
-		JMenuItem mntmOnlineUsers = new JMenuItem("Online Users");
+		mntmOnlineUsers = new JMenuItem("Online Users");
 		mnUsers.add(mntmOnlineUsers);
 		
-		JMenuItem mntmContacts = new JMenuItem("Contacts");
+		mntmContacts = new JMenuItem("Contacts");
 		mnUsers.add(mntmContacts);
 		
-		JLabel lblYouAreSigned = new JLabel("You are signed in with user: ");
+		lblYouAreSigned = new JLabel("You are signed in with user: ");
 		lblYouAreSigned.setForeground(SystemColor.textHighlightText);
 		lblYouAreSigned.setBackground(SystemColor.textHighlightText);
 		lblYouAreSigned.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblYouAreSigned.setBounds(10, 39, 253, 16);
 		add(lblYouAreSigned);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 80, 175, 699);
 		add(scrollPane);
 		
@@ -66,17 +78,17 @@ public class ConnectedUI extends JPanel {
 		JList list = new JList();
 		scrollPane.setViewportView(list);
 		
-		JScrollBar scrollBar = new JScrollBar();
+		scrollBar = new JScrollBar();
 		scrollPane.setRowHeaderView(scrollBar);
 		
-		JLabel lblYouAreChatting = new JLabel("You are chatting with user:");
+		lblYouAreChatting = new JLabel("You are chatting with user:");
 		lblYouAreChatting.setForeground(SystemColor.textHighlightText);
 		lblYouAreChatting.setBackground(new Color(255, 255, 255));
 		lblYouAreChatting.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblYouAreChatting.setBounds(289, 82, 235, 16);
 		add(lblYouAreChatting);
 		
-		JButton btnSend = new JButton("Send");
+		btnSend = new JButton("Send");
 		btnSend.setBounds(648, 754, 97, 25);
 		add(btnSend);
 		
@@ -85,12 +97,13 @@ public class ConnectedUI extends JPanel {
 		add(textField);
 		textField.setColumns(10);
 		
-		JScrollPane scrollPane2 = new JScrollPane();
+		scrollPane2 = new JScrollPane();
 		scrollPane2.setBounds(289, 120, 456, 579);
 		add(scrollPane2);
 		
-		JScrollBar scrollBar2 = new JScrollBar();
+		scrollBar2 = new JScrollBar();
 		scrollPane2.setRowHeaderView(scrollBar2);
+		
 		
 	}
 }
