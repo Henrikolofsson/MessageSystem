@@ -16,48 +16,58 @@ public class FileHandler {
 	private String fileName;
 	
 	
+	public FileHandler() {}
+	
 	public FileHandler(User user) {
 		this.user = user;
 	}
 	
 	
-	public void writeFile(String fileName) {
-		this.fileName = fileName;
+	public void writeUserList(User user) {
+		this.fileName = "files/ListOfUsers";
+		
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
-			
-			
+			oos.writeObject(user);
 			
 			oos.flush();
+			oos.close();
 		} catch(IOException e) {
 			e.getStackTrace();
 		}
 	}
 	
-	public void readFile(String fileName) throws ClassNotFoundException {
-		this.fileName = fileName;
+	public UserList getUserList() {
+		this.fileName = "files/ListOfUsers";
 		Object object;
+		int counter = 0;
+		
 		try {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
 			object = ois.readObject();
+			counter++;
 			
-			if(object != null) {
-				if(object instanceof UserList) {
-					
-				}
+			while(object != null) {
+				object = ois.readObject();
+				counter++;
 			}
 			
+			ois.close();
 		} catch(IOException e) {
 			e.getStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	public void addUserToList(User user) {
 		userList.addUser(user);
+//		writeUserList(user);
 	}
 	
 	public void removeUserFromList(User user) {
 		userList.removeUser(user);
+		
 	}
 
 
