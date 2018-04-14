@@ -6,7 +6,7 @@ public interface ServerListener {
 
 	void MessageReciver(Message m);
 
-//	void userConnected(User user,ConnectionEventListener connectionhandler);
+	void userConnected(User user);
 
 	void userDisconnected(User user);
 

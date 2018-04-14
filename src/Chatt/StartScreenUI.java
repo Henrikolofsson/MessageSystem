@@ -2,11 +2,17 @@ package Chatt;
 
 import javax.swing.JPanel;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.JComboBox;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
 
 /**
@@ -14,7 +20,7 @@ import javax.swing.JFileChooser;
  * @author Henrik Olofsson
  *
  */
-public class StartScreenUI extends JPanel {
+public class StartScreenUI extends JPanel implements ActionListener {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JLabel lblNewLabel;
@@ -24,7 +30,10 @@ public class StartScreenUI extends JPanel {
 	private JLabel lblStatus;
 	private JLabel lblWriteInThe;
 	private JLabel lblChooseAPicture;
+	
 	private JFileChooser fileChooser;
+	private JButton btnFileButton;
+	private ImageIcon image;
 	
 	public StartScreenUI() {
 		setBackground(SystemColor.textHighlight);
@@ -78,6 +87,29 @@ public class StartScreenUI extends JPanel {
 		lblChooseAPicture.setBounds(304, 120, 174, 16);
 		add(lblChooseAPicture);
 		
+		btnFileButton = new JButton("File Button");
+		btnFileButton.setBounds(304, 163, 89, 23);
+		add(btnFileButton);
+		
+		fileChooser = new JFileChooser();
+		
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnFileButton) {
+			if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("jpg", "png", "bmp"));
+				if(fileChooser.getSelectedFile() != null) {
+					String path = fileChooser.getSelectedFile().getAbsolutePath();
+					Image temporaryImage = new ImageIcon(path).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+					image = new ImageIcon(temporaryImage);
+				}
+			}
+		}
+		
+		if(e.getSource() == btnCreateUser) {
+			
+		}
 		
 	}
 }

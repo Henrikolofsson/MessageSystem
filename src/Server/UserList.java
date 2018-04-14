@@ -10,5 +10,9 @@ public class UserList {
 		userList.add(user);
 	}
 	
+	public void removeUser(User user) {
+		userList.remove(user);
+	}
+	
 	
 }
