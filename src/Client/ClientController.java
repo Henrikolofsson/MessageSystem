@@ -1,26 +1,16 @@
 package Client;
 
-import java.io.*;
-import java.net.Socket;
-
-import Server.Client;
-
-
 public class ClientController {
 	private Client client;
 	
-	public void ClientController(Client client) {
+	public ClientController (Client client) {
 		this.client = client;
-		
+		client.setClientController(this);
 	}
+
 	
-	public void connect() {
-		client.started();
-	}
-	
-	public void disconnect() {
-		client.stopped();
-		
-	}
-	
+	 public static void main(String[] args) {
+			Client client = new Client("127.0.0.1",4447);
+			ClientController controller = new ClientController(client);
+	  }
 }

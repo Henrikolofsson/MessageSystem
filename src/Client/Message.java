@@ -9,7 +9,7 @@ public class Message {
 	private User sender;
 	private ArrayList<User> receivers;
 	private String message;
-	private Calendar dateSend;
+	private Calendar dateSent;
 	private Calendar dateReceived;
 	
 	public Message() {
@@ -44,7 +44,7 @@ public class Message {
 	}
 	
 	public void setDateSend(Calendar cal) {
-		this.dateSend = cal;
+		this.dateSent = cal;
 	}
 	
 	public void setDateReceived(Calendar cal) {
@@ -52,7 +52,7 @@ public class Message {
 	}
 	
 	public Calendar getDateSend(Calendar cal) {
-		return dateSend;
+		return dateSent;
 	}
 	
 	public Calendar getDateReceived(Calendar cal) {
