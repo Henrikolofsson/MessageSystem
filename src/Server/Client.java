@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import Client.ClientController;
+import Client.UserMessage;
 
 /**
  * Klienten ska skicka en användare till servern vid uppkoppling.
@@ -23,27 +24,38 @@ public class Client extends Thread {
 	private String ip;
 	private int port;
 	private volatile boolean running = false;
+	private ClientListener clientListener;
+	private UserMessage userMessage = new UserMessage();
 	
 	
 	public Client(ClientController clientController) {
 		this.clientController = clientController;
-		
-		
 	}
 	
-	public Client(String ip, int port) {
+	public Client(String ip, int port) {		//Detta ska finnas i kontrollern
 		this.ip = ip;
 		this.port = port;
 	}
 	
-	public void start() {
+	public void setController(ClientController clientController) {
+		this.clientController = clientController;
+	}
+	
+	public void setClientListener(ClientListener clientListener) {
+		this.clientListener = clientListener;
+	}
+	
+	public void started() {
 		running = true;
 		start();
-		
 	}
 	
 	public void stopped() {
 		running = false;
+		
+	}
+	
+	public void send(Object obj) {
 		
 	}
 	
@@ -54,6 +66,8 @@ public class Client extends Thread {
 				socket = new Socket(ip,port);
 				ois = new ObjectInputStream(socket.getInputStream());
 				oos = new ObjectOutputStream(socket.getOutputStream());
+				System.out.println(socket.getInputStream().toString());
+				
 				
 				
 				oos.flush();
@@ -64,6 +78,12 @@ public class Client extends Thread {
 			}
 			
 		}
+		
+	}
+	
+	public static void main(String[] args) {
+		Client client = new Client("127.0.0.1", 5000);
+		client.started();
 		
 	}
 

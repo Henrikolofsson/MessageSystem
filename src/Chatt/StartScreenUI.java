@@ -35,6 +35,8 @@ public class StartScreenUI extends JPanel implements ActionListener {
 	private JButton btnFileButton;
 	private ImageIcon image;
 	
+	
+	
 	public StartScreenUI() {
 		setBackground(SystemColor.textHighlight);
 		setLayout(null);

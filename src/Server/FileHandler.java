@@ -22,7 +22,6 @@ public class FileHandler {
 		this.user = user;
 	}
 	
-	
 	public void writeUserList(User user) {
 		this.fileName = "files/ListOfUsers";
 		

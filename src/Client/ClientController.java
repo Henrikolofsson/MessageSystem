@@ -15,10 +15,11 @@ public class ClientController {
 	}
 	
 	public void connect() {
-		
+		client.started();
 	}
 	
 	public void disconnect() {
+		client.stopped();
 		
 	}
 	

@@ -7,8 +7,7 @@ public class UserList {
 	private ArrayList<User> userList = new ArrayList<User>();
 	private boolean userNameOk = false;
 	
-	public void addUser(User user) {
-		
+	public synchronized void addUser(User user) {
 		userList.add(user);
 	}
 	

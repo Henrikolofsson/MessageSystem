@@ -12,12 +12,12 @@ public class User {
 	private String name;
 	private ImageIcon picture;
 	private String password;
-	private boolean isLoggedIn=false;
+	private boolean online=false;
 	private Queue<Message> messages = new LinkedList<Message>();
 
 
-	public User(String name,String pass, ImageIcon pic, Boolean isLoggedIn) {
-	this.isLoggedIn=isLoggedIn;
+	public User(String name,String pass, ImageIcon pic, Boolean online) {
+		this.online=online;
 	}
 
 	public void addMessage(Message message) {
@@ -51,11 +51,11 @@ public class User {
 	public void setPass(String pass) {
 		this.password = pass;
 	}
-	public void setLoggedIn(boolean isLoggedIn) {
-		this.isLoggedIn = isLoggedIn;
+	public void setLoggedIn(boolean online) {
+		this.online = online;
 	}
 	public Boolean isLoggedIn(){
-		return this.isLoggedIn;
+		return this.online;
 	}
 
 
