@@ -27,33 +27,33 @@ public class User {
 	public Message getMessage() {
 		return messages.peek();
 	}
+	
 	public void destroyNext() {
 		if(messages !=null) {
 		messages.remove();
 		}
 	}
 
-	public void setPic(ImageIcon pic) {
-		this.picture = pic;
+	public void setPicture(ImageIcon picture) {
+		this.picture = picture;
 	}
+	
 	public ImageIcon getPicture() {
 		return picture;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getName() {
 		return name;
 	}
-	public String getPass() {
-		return password;
-	}
-	public void setPass(String pass) {
-		this.password = pass;
-	}
+
 	public void setLoggedIn(boolean online) {
 		this.online = online;
 	}
+	
 	public Boolean isLoggedIn(){
 		return this.online;
 	}

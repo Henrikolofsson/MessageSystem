@@ -12,13 +12,17 @@ public class Message {
 	private Calendar dateSend;
 	private Calendar dateReceived;
 	
+	public Message() {
+		
+	}
+	
 	public Message(User sender, ArrayList<User> receivers) {
 		this.sender = sender;
 		this.receivers = receivers;
 	}
 	
 	public void Message(User sender, ArrayList<User> receivers, String message) {
-		this.sender = sender;		//this?
+		this.sender = sender;
 		this.receivers = receivers;
 		this.message = message;
 	}
