@@ -1,6 +1,8 @@
 package client;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -15,13 +17,21 @@ public class Client {
 	private int serverPort;
 //	private User user;
 	private ClientController controller;
-	private ObjectInputStream ois;
-	private ObjectOutputStream oos;
+	private DataInputStream ois;
+	private DataOutputStream oos;
 	private Socket socket;
 	
-	public Client(int serverPort) { // (int serverPort, User user) 
+	public Client(String ip, int serverPort) { // (int serverPort, User user) 
 		this.serverPort = serverPort;
-//		this.user = user; 
+//		this.user = user;
+		try {
+			socket = new Socket(ip, serverPort);
+			ois = new DataInputStream(socket.getInputStream());
+			oos = new DataOutputStream(socket.getOutputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		new Listener().start();
 		
 	}
@@ -31,6 +41,14 @@ public class Client {
 	}
 	
 	public void sendMessage() {
+		String str = "Hej";
+		
+		try {
+			oos.writeUTF(str);;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -45,23 +63,9 @@ public class Client {
 	
 	private class Listener extends Thread{
 		public void run() {
-			try {
-				
-				InetAddress host = InetAddress.getByName("localhost"); 
-				System.out.println("Connecting to server on port " + serverPort); 
-
-				socket = new Socket(host,serverPort); 
-				System.out.println("Just connected to " + socket.getRemoteSocketAddress()); 
-				
-				
-				
-			}
-			catch(UnknownHostException ex) {
-				ex.printStackTrace();
-			}
-			catch(IOException e){
-				e.printStackTrace();
-			}
+			sendMessage();
+			
+			
 		  }
 		
 	}
