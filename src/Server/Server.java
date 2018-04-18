@@ -33,7 +33,7 @@ public class Server {
 		private Socket clientSocket;
 		private ObjectInputStream fromClient;
 		private ObjectOutputStream toClient;
-		private String userName;
+		private User user;
 
 		public ClientHandler(Socket socket) {
 			this.clientSocket = socket;
@@ -48,27 +48,39 @@ public class Server {
 
 		}
 
+		public void readMessage(Message msg) {
+			System.out.println(msg.getMessage());
+		}
+
+
+
 		public void run() {
+
 			try {
 	
+					user =(User) fromClient.readObject();
+					System.out.println(user.getName());
+
+			
+
 				while (true) {
 					try {
-						System.out.println("Jag är ful");						
-						if(fromClient.readObject() != null)
-							message = (Message) fromClient.readObject();
-						
-						System.out.println("Jag är cool " + message.getMessage());
-					} catch (ClassNotFoundException e) {
-						//clientSocket.close();
-					}
-					//System.out.println(message.toString());
+						if (fromClient.readObject() instanceof Message) {
+							Message msg = (Message) fromClient.readObject();
+							System.out.println(msg.getMessage());
+						}
 					
-				}
-			}
+						
+						
+					} catch (Exception e) {
+						System.err.println(e);
+					}
+					// System.out.println(message.toString());
 
-			catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				}
+			} catch (Exception e1) {
+				System.err.println(e1);
+
 			}
 
 		}

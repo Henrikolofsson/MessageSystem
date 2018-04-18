@@ -21,11 +21,9 @@ public class Client {
 	private ObjectInputStream fromServer;
 	private ObjectOutputStream toServer;
 	private Socket socket;
-	private Message message = new Message("TEST");
 
 	public Client(String ip, int serverPort) { // (int serverPort, User user)
 		this.serverPort = serverPort;
-		 this.user = user;
 		try {
 			System.out.println("CP1");
 			socket = new Socket(ip, serverPort);
@@ -54,15 +52,36 @@ public class Client {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public void sendMessage(Message msg) {
+		try {
+			toServer.writeObject(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	private class Listener extends Thread {
 		public void run() {
-			while (true) {
+							
+				user = new User ("Jessica", null, true);
 				try {
-					//System.out.println("innan skrivning");
-				toServer.writeObject(message);
-					//System.out.println("Efter skrivning");
-				} catch (IOException e) {
+					toServer.writeObject(user);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+//				sendMessage(new Message("bajstolle"));
+			
+			while (true) {									
+			
+					
+				try {	
+					toServer.writeObject(new Message("hej"));
+					
+					Thread.sleep(5000);
+				} catch (Exception e) {
 					System.out.println("FEL");
 					e.printStackTrace();
 				}

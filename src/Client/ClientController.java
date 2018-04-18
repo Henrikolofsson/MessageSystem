@@ -1,5 +1,7 @@
 package Client;
 
+import Server.User;
+
 public class ClientController {
 	private Client client;
 	

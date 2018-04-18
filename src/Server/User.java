@@ -1,5 +1,6 @@
 package Server;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -8,14 +9,19 @@ import javax.swing.ImageIcon;
 
 import Client.Message;
 //Skriv gärna vad klassen gör och vem som skrivit den
-public class User {
+public class User implements Serializable{
 	private String name;
 	private ImageIcon picture;
 	private boolean online=false;
 	private Queue<Message> messages = new LinkedList<Message>();
 
+	public User() {
+		
+	}
 
-	public User(String name,String pass, ImageIcon pic, Boolean online) {
+	public User(String name, ImageIcon pic, Boolean online) {
+		this.name = name;
+		this.picture = pic;
 		this.online=online;
 	}
 

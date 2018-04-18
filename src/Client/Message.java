@@ -22,7 +22,7 @@ public class Message implements Serializable {
 		this.receivers = receivers;
 	}
 	
-	public void Message(User sender, ArrayList<User> receivers, String message) {
+	public Message(User sender, ArrayList<User> receivers, String message) {
 		this.sender = sender;
 		this.receivers = receivers;
 		this.message = message;
