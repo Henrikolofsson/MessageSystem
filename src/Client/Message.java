@@ -1,19 +1,20 @@
 package Client;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import Server.User;
 
-public class Message {
+public class Message implements Serializable {
 	private User sender;
 	private ArrayList<User> receivers;
 	private String message;
 	private Calendar dateSent;
 	private Calendar dateReceived;
 	
-	public Message() {
-		
+	public Message(String str) {
+		this.message = str;
 	}
 	
 	public Message(User sender, ArrayList<User> receivers) {

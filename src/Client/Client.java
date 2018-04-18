@@ -12,27 +12,31 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.sound.midi.SysexMessage;
+
 
 public class Client {
 	private int serverPort;
 //	private User user;
 	private ClientController controller;
-	private DataInputStream ois;
-	private DataOutputStream oos;
+	private DataInputStream fromServer;
+	private DataOutputStream toServer;
 	private Socket socket;
+	private Message message = new Message("TEST");
 	
 	public Client(String ip, int serverPort) { // (int serverPort, User user) 
 		this.serverPort = serverPort;
 //		this.user = user;
 		try {
 			socket = new Socket(ip, serverPort);
-			ois = new DataInputStream(socket.getInputStream());
-			oos = new DataOutputStream(socket.getOutputStream());
+			fromServer = new DataInputStream(socket.getInputStream());
+			toServer = new DataOutputStream(socket.getOutputStream());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		new Listener().start();
+//		new Listener().start();
+		sendMessage();
 		
 	}
 	
@@ -44,7 +48,7 @@ public class Client {
 		String str = "Hej";
 		
 		try {
-			oos.writeUTF(str);;
+			toServer.writeUTF(str);;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,9 +67,8 @@ public class Client {
 	
 	private class Listener extends Thread{
 		public void run() {
-			sendMessage();
-			
-			
+		
+	
 		  }
 		
 	}

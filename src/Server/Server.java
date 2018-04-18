@@ -12,64 +12,62 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import Client.Message;
+
 public class Server {
-	
+	private Message message;
+
 	public Server(int serverPort) {
-		
+
 		try {
 			ServerSocket serverSocket = new ServerSocket(serverPort);
 			System.out.println("Waiting for client on port " + serverSocket.getLocalPort() + "...");
-			while(true) {
+			while (true) {
 				Socket clientSocket = serverSocket.accept();
-				System.out.println("Just connected to " + clientSocket.getRemoteSocketAddress()); 
+				System.out.println("Just connected to " + clientSocket.getRemoteSocketAddress());
 				new ClientHandler(clientSocket).start();
 			}
-		}
-		catch(UnknownHostException ex) {
+		} catch (UnknownHostException ex) {
 			ex.printStackTrace();
-		}
-		catch(IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		System.out.println("Server stopped");
 	}
-	
-	
-	 
-	 private class ClientHandler extends Thread{
-		 private Socket clientSocket;
-		 private DataInputStream ois;
-		 private DataOutputStream oos;
-		 
-		 public ClientHandler(Socket socket) {
-			 this.clientSocket = socket;
-			 try {
-					ois = new DataInputStream(socket.getInputStream());
-					oos = new DataOutputStream(socket.getOutputStream());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			 
-		 }
-		 
-		 public void run() {
+
+	private class ClientHandler extends Thread {
+		private Socket clientSocket;
+		private DataInputStream fromClient;
+		private DataOutputStream toClient;
+
+		public ClientHandler(Socket socket) {
+			this.clientSocket = socket;
 			try {
-				System.out.println(	ois.readUTF());
-			
-			}  catch (IOException e) {
+				fromClient = new DataInputStream(clientSocket.getInputStream());
+				toClient = new DataOutputStream(clientSocket.getOutputStream());
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
-			
-			
-			
-			 
-		 }
-	 }
-			
-		  public static void main(String[] args) {
-			  Server srv = new Server(4447);
-		  }
+
+		}
+
+		public void run() {
+			try {
+
+				System.out.println(fromClient.readUTF());
+			}
+
+			catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	public static void main(String[] args) {
+		Server srv = new Server(4447);
+	}
+
 }
