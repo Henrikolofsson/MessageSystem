@@ -26,6 +26,7 @@ public class Server {
 				Socket clientSocket = serverSocket.accept();
 				System.out.println("Just connected to " + clientSocket.getRemoteSocketAddress());
 				new ClientHandler(clientSocket).start();
+				System.out.println("Done awaiting new connections");
 			}
 		} catch (UnknownHostException ex) {
 			ex.printStackTrace();
@@ -37,14 +38,17 @@ public class Server {
 
 	private class ClientHandler extends Thread {
 		private Socket clientSocket;
-		private DataInputStream fromClient;
-		private DataOutputStream toClient;
+		private ObjectInputStream fromClient;
+		private ObjectOutputStream toClient;
 
 		public ClientHandler(Socket socket) {
 			this.clientSocket = socket;
 			try {
-				fromClient = new DataInputStream(clientSocket.getInputStream());
-				toClient = new DataOutputStream(clientSocket.getOutputStream());
+				fromClient = new ObjectInputStream(clientSocket.getInputStream());
+				System.out.println("fromClient stream established");
+				//toClient = new ObjectOutputStream(clientSocket.getOutputStream());
+				System.out.println("toClient stream established");
+				//toClient.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -54,8 +58,20 @@ public class Server {
 
 		public void run() {
 			try {
+				while (true) {
+					try {
+						//System.out.println("Jag är ful");						
+						if(fromClient.readObject() != null)
+							message = (Message) fromClient.readObject();
+						
+						System.out.println("Jag är cool " + message.getMessage());
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					//System.out.println(message.toString());
 
-				System.out.println(fromClient.readUTF());
+				}
 			}
 
 			catch (IOException e) {

@@ -40,6 +40,11 @@ public class Message implements Serializable {
 		return sender;
 	}
 	
+	public String getMessage()
+	{
+		return message;
+	}
+	
 	public ArrayList<User> getReceivers() {
 		return receivers;
 	}

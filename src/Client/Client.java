@@ -12,50 +12,44 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import javax.sound.midi.SysexMessage;
-
-
 public class Client {
 	private int serverPort;
-//	private User user;
+	// private User user;
 	private ClientController controller;
-	private DataInputStream fromServer;
-	private DataOutputStream toServer;
+	private ObjectInputStream fromServer;
+	private ObjectOutputStream toServer;
 	private Socket socket;
 	private Message message = new Message("TEST");
-	
-	public Client(String ip, int serverPort) { // (int serverPort, User user) 
+
+	public Client(String ip, int serverPort) { // (int serverPort, User user)
 		this.serverPort = serverPort;
-//		this.user = user;
+		// this.user = user;
 		try {
+			System.out.println("CP1");
 			socket = new Socket(ip, serverPort);
-			fromServer = new DataInputStream(socket.getInputStream());
-			toServer = new DataOutputStream(socket.getOutputStream());
+			System.out.println("CP 2");
+			// fromServer = new ObjectInputStream(socket.getInputStream());
+			System.out.println("CP 3");
+			toServer = new ObjectOutputStream(socket.getOutputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
+			System.out.println("FETT FEL");
 			e.printStackTrace();
 		}
-//		new Listener().start();
-		sendMessage();
-		
+		new Listener().start();
+
 	}
-	
+
 	public void setClientController(ClientController controller) {
 		this.controller = controller;
 	}
-	
-	public void sendMessage() {
-		String str = "Hej";
-		
-		try {
-			toServer.writeUTF(str);;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	
+
+	// public void sendMessage() {
+	//
+	//
+	//
+	// }
+
 	public void disconnectClient() {
 		try {
 			socket.close();
@@ -64,14 +58,22 @@ public class Client {
 			e.printStackTrace();
 		}
 	}
-	
-	private class Listener extends Thread{
+
+	private class Listener extends Thread {
 		public void run() {
-		
-	
-		  }
-		
+			while (true) {
+				try {
+					//System.out.println("innan skrivning");
+					toServer.writeObject(message);
+					//System.out.println("Efter skrivning");
+				} catch (IOException e) {
+					System.out.println("FEL");
+					e.printStackTrace();
+				}
+
+			}
+		}
+
 	}
-	
-	
+
 }
