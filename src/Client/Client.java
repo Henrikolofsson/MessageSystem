@@ -44,7 +44,6 @@ public class Client {
 		this.controller = controller;
 	}
 
-
 	public void disconnectClient() {
 		try {
 			socket.close();
