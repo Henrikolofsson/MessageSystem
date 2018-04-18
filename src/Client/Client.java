@@ -12,9 +12,11 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import Server.User;
+
 public class Client {
 	private int serverPort;
-	// private User user;
+	 private User user;
 	private ClientController controller;
 	private ObjectInputStream fromServer;
 	private ObjectOutputStream toServer;
@@ -23,7 +25,7 @@ public class Client {
 
 	public Client(String ip, int serverPort) { // (int serverPort, User user)
 		this.serverPort = serverPort;
-		// this.user = user;
+		 this.user = user;
 		try {
 			System.out.println("CP1");
 			socket = new Socket(ip, serverPort);
@@ -44,17 +46,11 @@ public class Client {
 		this.controller = controller;
 	}
 
-	// public void sendMessage() {
-	//
-	//
-	//
-	// }
 
 	public void disconnectClient() {
 		try {
 			socket.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -64,7 +60,7 @@ public class Client {
 			while (true) {
 				try {
 					//System.out.println("innan skrivning");
-					toServer.writeObject(message);
+				toServer.writeObject(message);
 					//System.out.println("Efter skrivning");
 				} catch (IOException e) {
 					System.out.println("FEL");

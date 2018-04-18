@@ -11,7 +11,6 @@ import Client.Message;
 public class User {
 	private String name;
 	private ImageIcon picture;
-	private String password;
 	private boolean online=false;
 	private Queue<Message> messages = new LinkedList<Message>();
 

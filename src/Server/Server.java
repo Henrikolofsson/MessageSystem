@@ -1,13 +1,6 @@
 package Server;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -40,17 +33,16 @@ public class Server {
 		private Socket clientSocket;
 		private ObjectInputStream fromClient;
 		private ObjectOutputStream toClient;
+		private String userName;
 
 		public ClientHandler(Socket socket) {
 			this.clientSocket = socket;
 			try {
 				fromClient = new ObjectInputStream(clientSocket.getInputStream());
 				System.out.println("fromClient stream established");
-				//toClient = new ObjectOutputStream(clientSocket.getOutputStream());
+				toClient = new ObjectOutputStream(clientSocket.getOutputStream());
 				System.out.println("toClient stream established");
-				//toClient.flush();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -58,19 +50,19 @@ public class Server {
 
 		public void run() {
 			try {
+	
 				while (true) {
 					try {
-						//System.out.println("Jag är ful");						
+						System.out.println("Jag är ful");						
 						if(fromClient.readObject() != null)
 							message = (Message) fromClient.readObject();
 						
 						System.out.println("Jag är cool " + message.getMessage());
 					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						//clientSocket.close();
 					}
 					//System.out.println(message.toString());
-
+					
 				}
 			}
 
