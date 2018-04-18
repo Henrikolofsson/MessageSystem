@@ -67,7 +67,7 @@ public class Server {
 					try {
 						if (fromClient.readObject() instanceof Message) {
 							Message msg = (Message) fromClient.readObject();
-							System.out.println(msg.getMessage());
+//							System.out.println(msg.getMessage());
 						}
 					
 						
