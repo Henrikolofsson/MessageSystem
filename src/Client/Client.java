@@ -16,7 +16,7 @@ import Server.User;
 
 public class Client {
 	private int serverPort;
-	 private User user;
+	private User user;
 	private ClientController controller;
 	private ObjectInputStream fromServer;
 	private ObjectOutputStream toServer;
@@ -25,12 +25,12 @@ public class Client {
 	public Client(String ip, int serverPort) { // (int serverPort, User user)
 		this.serverPort = serverPort;
 		try {
-			System.out.println("CP1");
 			socket = new Socket(ip, serverPort);
-			System.out.println("CP 2");
-			// fromServer = new ObjectInputStream(socket.getInputStream());
-			System.out.println("CP 3");
+//			System.out.println("Test innan inputström");
+//			fromServer = new ObjectInputStream(socket.getInputStream()); // problem här
+//			System.out.println("fromServer stream established");
 			toServer = new ObjectOutputStream(socket.getOutputStream());
+			System.out.println("toServer stream established");
 		} catch (IOException e) {
 
 			System.out.println("FETT FEL");
@@ -51,7 +51,11 @@ public class Client {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Sends a Message-object to the server.
+	 * @param msg the message 
+	 */
 	public void sendMessage(Message msg) {
 		try {
 			toServer.writeObject(msg);
@@ -59,32 +63,35 @@ public class Client {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	private class Listener extends Thread {
 		public void run() {
-							
-				user = new User ("Jessica", null, true);
+
+			/*
+			 * så fort en klient skapas, skickar den sin User-info till servern så att
+			 * serven vet vilken user som loggar in. Detta ska bara ske en gång.
+			 */
+			user = new User("Jessica", null, true);
+			try {
+				toServer.writeObject(user);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+			/**
+			 * här bör klienten lyssna efter uppdateringar av listor & inkommande
+			 * meddelanden från server
+			 */
+			while (true) {
+
 				try {
-					toServer.writeObject(user);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				
-//				sendMessage(new Message("bajstolle"));
-			
-			while (true) {									
-			
-					
-				try {	
-					toServer.writeObject(new Message("hej"));
-					
+					sendMessage(new Message("my message to server"));
 					Thread.sleep(5000);
 				} catch (Exception e) {
-					System.out.println("FEL");
+					System.err.println(e);
 					e.printStackTrace();
 				}
-
+				disconnectClient();
 			}
 		}
 

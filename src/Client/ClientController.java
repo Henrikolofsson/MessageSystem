@@ -12,10 +12,9 @@ public class ClientController {
 
 	
 	 public static void main(String[] args) {
-		 System.out.println("CP controller1");
-			Client client = new Client("127.0.0.1",4447);
-			System.out.println("CP controller2");
-			ClientController controller = new ClientController(client);
-			System.out.println("CP controller3");
+			Client client1 = new Client("127.0.0.1",4447);
+//			Client client2 = new Client("127.0.0.1",4447);
+//			Client client3 = new Client("127.0.0.1",4447);
+//			ClientController controller = new ClientController(client1);
 	  }
 }
