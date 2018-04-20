@@ -8,21 +8,27 @@ import Server.User;
 
 public class Message implements Serializable {
 	private User sender;
-	private ArrayList<User> receivers;
+	private ArrayList<String> receivers;
 	private String message;
 	private Calendar dateSent;
 	private Calendar dateReceived;
+	
+	// remove after test
+	public Message(String str,  ArrayList<String> receivers, String message) {
+		this.message = message;
+		this.receivers = receivers;
+	}
 	
 	public Message(String str) {
 		this.message = str;
 	}
 	
-	public Message(User sender, ArrayList<User> receivers) {
+	public Message(User sender, ArrayList<String> receivers) {
 		this.sender = sender;
 		this.receivers = receivers;
 	}
 	
-	public Message(User sender, ArrayList<User> receivers, String message) {
+	public Message(User sender, ArrayList<String> receivers, String message) {
 		this.sender = sender;
 		this.receivers = receivers;
 		this.message = message;
@@ -32,7 +38,7 @@ public class Message implements Serializable {
 		this.sender = user;
 	}
 	
-	public void setReceiver(ArrayList<User> receivers) {
+	public void setReceiver(ArrayList<String> receivers) {
 		this.receivers = receivers;
 	}
 	
@@ -45,7 +51,7 @@ public class Message implements Serializable {
 		return message;
 	}
 	
-	public ArrayList<User> getReceivers() {
+	public ArrayList<String> getReceivers() {
 		return receivers;
 	}
 	

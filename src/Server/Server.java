@@ -7,6 +7,9 @@ import Client.Message;
 
 public class Server {
 	private Clients cl = new Clients();
+	private ArrayList<Message> unsentMessages = new ArrayList<>();
+	private ArrayList<String> messageReceivers = new ArrayList<>();
+
 
 	/**
 	 * Creates the server in the requested port and instantiates a ServerSocket.
@@ -26,6 +29,15 @@ public class Server {
 				System.out.println("Just connected to " + clientSocket.getRemoteSocketAddress());
 				new ClientHandler(clientSocket, cl).start();
 				System.out.println("Done awaiting new connections");
+				
+				messageReceivers.add("Kalle");
+				messageReceivers.add("Balle");
+				messageReceivers.add("Nalle");
+			Message msg1 = new Message("Jessica", messageReceivers , "meddelandet");
+				addMessageToUnsentList(msg1);
+//				addMessageToList(new Message("Judy", messageReceivers , "bla"));
+				checkReceiversAndOnliners();
+				
 			}
 		} catch (UnknownHostException ex) {
 			ex.printStackTrace();
@@ -34,6 +46,60 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
+	
+	// testing purpose, remove after
+	public Server() {
+		
+		messageReceivers.add("Kalle");
+		messageReceivers.add("Balle");
+		messageReceivers.add("Nalle");
+	Message msg1 = new Message("Jessica", messageReceivers , "meddelandet");
+		addMessageToUnsentList(msg1);
+//		addMessageToList(new Message("Judy", messageReceivers , "bla"));
+		checkReceiversAndOnliners();
+	}
+	
+	
+	
+	public synchronized void addMessageToUnsentList (Message message) {
+		unsentMessages.add(message);
+		System.out.println(unsentMessages.size());
+		System.out.println(unsentMessages.get(0).getMessage());
+	}
+	
+	public synchronized boolean findReceiverInOnlineList(String onlineUser, String receiverName) {
+		if(onlineUser.matches(receiverName)) {
+			System.out.println(receiverName + " found in the onlineList");
+			return true;
+		} else {
+			System.out.println(receiverName + " not found in the onlineList");
+		return false;
+		}
+	}
+	
+	public synchronized void checkReceiversAndOnliners() {
+		// läsa vilka users som är online
+		ArrayList<String> onlineUsers = cl.getAllOnlineUsers();
+		ArrayList<String> listOfReceivers;
+		int index=0;
+		
+		for (Message message : unsentMessages) {
+			listOfReceivers = message.getReceivers();
+			for(String receiverOnList : listOfReceivers) {
+				String onlineUser = onlineUsers.get(index);
+				String receiver = listOfReceivers.get(index);
+				findReceiverInOnlineList(onlineUser, receiver);
+				index++;
+			}
+		}
+	}
+	
+	/* loop? */
+	public synchronized void sendMessageToOnlineUser(Message msg) {
+		// skicka till HashMap key?
+	}
+
+	
 
 	/**
 	 * Inner-class which handles the list of online users.
@@ -105,6 +171,7 @@ public class Server {
 
 	}
 
+	
 	/**
 	 * Thread which listens for and responds to a client's requests. This
 	 * inner-class updates the connected clients...
