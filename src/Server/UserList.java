@@ -3,16 +3,16 @@ package Server;
 import java.util.ArrayList;
 
 //Ska hålla en lista av användare, som ska skrivas ner av servern
-public class UserList {
-	private ArrayList<User> userList = new ArrayList<User>();
+public class UserList extends ArrayList<User>{
+	User user;
 	private boolean userNameOk = false;
 	
 	public synchronized void addUser(User user) {
-		userList.add(user);
+		add(user);
 	}
 	
-	public void removeUser(User user) {
-		userList.remove(user);
+	public synchronized void removeUser(User user) {
+		remove(user);
 	}
 	
 	
