@@ -10,7 +10,6 @@ public class Server {
 	private ArrayList<Message> unsentMessages = new ArrayList<>();
 	private ArrayList<String> messageReceivers = new ArrayList<>();
 
-
 	/**
 	 * Creates the server in the requested port and instantiates a ServerSocket.
 	 * Then it listens for a client to connect to this socket and starts a
@@ -55,6 +54,7 @@ public class Server {
 		messageReceivers.add("Nalle");
 	Message msg1 = new Message("Jessica", messageReceivers , "meddelandet");
 		addMessageToUnsentList(msg1);
+		cl.put(new User("Pelle"), new ClientHandler());
 //		addMessageToList(new Message("Judy", messageReceivers , "bla"));
 		checkReceiversAndOnliners();
 	}
@@ -67,35 +67,38 @@ public class Server {
 		System.out.println(unsentMessages.get(0).getMessage());
 	}
 	
-	public synchronized boolean findReceiverInOnlineList(String onlineUser, String receiverName) {
+	public synchronized void findReceiverInOnlineList(String onlineUser, String receiverName) {
 		if(onlineUser.matches(receiverName)) {
 			System.out.println(receiverName + " found in the onlineList");
-			return true;
+			// anropa metod som skickar meddelandet till receiver
+			// sendMessageToOnlineUser(receiverName);
 		} else {
 			System.out.println(receiverName + " not found in the onlineList");
-		return false;
+			// gör ingenting?
 		}
 	}
 	
 	public synchronized void checkReceiversAndOnliners() {
 		// läsa vilka users som är online
 		ArrayList<String> onlineUsers = cl.getAllOnlineUsers();
-		ArrayList<String> listOfReceivers;
+		ArrayList<String> listOfReceivers = new ArrayList<String>();
 		int index=0;
 		
 		for (Message message : unsentMessages) {
-			listOfReceivers = message.getReceivers();
+			listOfReceivers = message.getReceivers();	
 			for(String receiverOnList : listOfReceivers) {
 				String onlineUser = onlineUsers.get(index);
-				String receiver = listOfReceivers.get(index);
-				findReceiverInOnlineList(onlineUser, receiver);
+				findReceiverInOnlineList(onlineUser, receiverOnList);
 				index++;
+				if(index==listOfReceivers.size() || index==onlineUsers.size()) {
+					break;
+				}
 			}
 		}
 	}
 	
 	/* loop? */
-	public synchronized void sendMessageToOnlineUser(Message msg) {
+	public synchronized void sendMessageToOnlineUser() {
 		// skicka till HashMap key?
 	}
 
@@ -122,9 +125,7 @@ public class Server {
 		 *            value to be associated with the specified key
 		 */
 		public synchronized void put(User user, ClientHandler clientHandler) {
-			System.out.println("put");
 			onlineUsers.put(user, clientHandler);
-			System.out.println("put2");
 		}
 
 		/**
@@ -209,6 +210,10 @@ public class Server {
 
 		}
 
+		public ClientHandler() {
+			// TODO Auto-generated constructor stub
+		}
+
 		/**
 		 * Reads a message from a client and adds all receivers in a stored list.
 		 * 
@@ -225,6 +230,10 @@ public class Server {
 			 */
 			System.out.println(msg.getMessage());
 
+		}
+		
+		public void sendToClients() {
+			
 		}
 
 		public void run() {
@@ -282,7 +291,8 @@ public class Server {
 	}
 
 	public static void main(String[] args) {
-		Server srv = new Server(4447);
+//		Server srv = new Server(4447);
+		Server srv = new Server();
 	}
 
 }
