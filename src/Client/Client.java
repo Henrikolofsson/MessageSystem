@@ -26,8 +26,8 @@ public class Client {
 		this.serverPort = serverPort;
 		try {
 			socket = new Socket(ip, serverPort);
-//			System.out.println("Test innan inputström");
-//			fromServer = new ObjectInputStream(socket.getInputStream()); // problem här
+//			System.out.println("Test innan inputstrï¿½m");
+//			fromServer = new ObjectInputStream(socket.getInputStream()); // problem hï¿½r
 //			System.out.println("fromServer stream established");
 			toServer = new ObjectOutputStream(socket.getOutputStream());
 			System.out.println("toServer stream established");
@@ -68,8 +68,8 @@ public class Client {
 		public void run() {
 
 			/*
-			 * så fort en klient skapas, skickar den sin User-info till servern så att
-			 * serven vet vilken user som loggar in. Detta ska bara ske en gång.
+			 * sï¿½ fort en klient skapas, skickar den sin User-info till servern sï¿½ att
+			 * serven vet vilken user som loggar in. Detta ska bara ske en gï¿½ng.
 			 */
 			user = new User("Jessica", null, true);
 			try {
@@ -79,8 +79,8 @@ public class Client {
 			}
 
 			/**
-			 * här bör klienten lyssna efter uppdateringar av listor & inkommande
-			 * meddelanden från server
+			 * hï¿½r bï¿½r klienten lyssna efter uppdateringar av listor & inkommande
+			 * meddelanden frï¿½n server
 			 */
 			while (true) {
 
@@ -91,7 +91,7 @@ public class Client {
 					System.err.println(e);
 					e.printStackTrace();
 				}
-				disconnectClient();
+//				disconnectClient();
 			}
 		}
 
