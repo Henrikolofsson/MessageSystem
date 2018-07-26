@@ -13,20 +13,14 @@ import Client.Message;
 public class User implements Serializable {
 	private String name;
 	private ImageIcon picture;
-	private boolean online = false;
-
-	public User() {
-
-	}
 
 	public User(String username) {
 		this.name = username;
 	}
 
-	public User(String name, ImageIcon pic, Boolean online) {
+	public User(String name, ImageIcon pic) {
 		this.name = name;
 		this.picture = pic;
-		this.online = online;
 	}
 
 	public void setPicture(ImageIcon picture) {
@@ -45,12 +39,5 @@ public class User implements Serializable {
 		return name;
 	}
 
-	public void setLoggedIn(boolean online) {
-		this.online = online;
-	}
-
-	public Boolean isLoggedIn() {
-		return this.online;
-	}
 
 }

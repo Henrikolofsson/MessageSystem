@@ -1,16 +1,12 @@
 package Client;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import Server.User;
 
@@ -22,29 +18,25 @@ public class Client {
 	private ObjectOutputStream toServer;
 	private Socket socket;
 
-	public Client(String ip, int serverPort) { // (int serverPort, User user)
+	public Client(String ip, int serverPort, User user) { // (int serverPort, User user)
 		this.serverPort = serverPort;
+		 this.user = user;
 		try {
 			socket = new Socket(ip, serverPort);
-//			System.out.println("Test innan inputstr�m");
-//			fromServer = new ObjectInputStream(socket.getInputStream()); // problem h�r
-//			System.out.println("fromServer stream established");
 			toServer = new ObjectOutputStream(socket.getOutputStream());
-			System.out.println("toServer stream established");
+			fromServer = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
 
 			System.out.println("FETT FEL");
 			e.printStackTrace();
 		}
+		controller = new ClientController(this);
 		new Listener().start();
 
 	}
 
-	public void setClientController(ClientController controller) {
-		this.controller = controller;
-	}
 
-	public void disconnectClient() {
+	public void disconnect() {
 		try {
 			socket.close();
 		} catch (IOException e) {
@@ -63,29 +55,48 @@ public class Client {
 			e.printStackTrace();
 		}
 	}
+	
+	public void readMessage() {
+		try {
+			Message msg = (Message) fromServer.readObject();
+			System.out.println(msg.getMessage() + " client received msg");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	private class Listener extends Thread {
 		public void run() {
+			ArrayList<String> messageReceivers = new ArrayList<>();
+			messageReceivers.add("Kalle");
+			messageReceivers.add("Balle");
+			messageReceivers.add("Nalle");
+			Message msg1 = new Message("Sender", messageReceivers, "meddelandet");
 
+			
 			/*
 			 * s� fort en klient skapas, skickar den sin User-info till servern s� att
 			 * serven vet vilken user som loggar in. Detta ska bara ske en g�ng.
 			 */
-			user = new User("Jessica", null, true);
 			try {
 				toServer.writeObject(user);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+			
+
 
 			/**
 			 * h�r b�r klienten lyssna efter uppdateringar av listor & inkommande
 			 * meddelanden fr�n server
 			 */
 			while (true) {
-
+				sendMessage(msg1);
 				try {
-					sendMessage(new Message("my message to server"));
 					Thread.sleep(5000);
 				} catch (Exception e) {
 					System.err.println(e);

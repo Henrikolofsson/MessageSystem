@@ -70,5 +70,9 @@ public class Message implements Serializable {
 	public Calendar getDateReceived(Calendar cal) {
 		return dateReceived;
 	}
+	
+	public void remove(String name) {
+		receivers.remove(name);
+	}
 
 }
